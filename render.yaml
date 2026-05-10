@@ -1,0 +1,13 @@
+services:
+  - type: worker
+    name: ArabEduBot
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m app.bot.bot
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: DATABASE_URL
+        value: sqlite:///./test.db
+      - key: SECRET_KEY
+        value: your_secret_key_here
