@@ -1,90 +1,82 @@
+import uuid
+from app.database.session import SessionLocal, engine
+from app.models.models import Base, Country, City, University, Faculty, Department, Dormitory, LivingCost, Scholarship, AdmissionRequirement
 
-from app.database.session import SessionLocal, engine, Base
-from app.models.models import Country, City, University, Faculty, Department, Dormitory, LivingCost, Scholarship, AdmissionRequirement, StudentReview, User
+# هذا هو الملف الذي سننشئه في الخطوة القادمة
+try:
+    from app.data_structure import ARAB_COUNTRIES_DATA
+except ImportError:
+    ARAB_COUNTRIES_DATA = [] # قائمة فارغة مؤقتاً لتجنب انهيار الكود
 
-# Import the data structure
-from app.data_structure import ARAB_COUNTRIES_DATA
+def generate_uuid():
+    return str(uuid.uuid4())
 
 def seed_data():
-    Base.metadata.drop_all(bind=engine)
+    # تنبيه: drop_all ستمسح كل بياناتك القديمة، استخدمها فقط عند التصفير
+    # Base.metadata.drop_all(bind=engine) 
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
 
+    if not ARAB_COUNTRIES_DATA:
+        print("❌ خطأ: لم يتم العثور على بيانات في ARAB_COUNTRIES_DATA")
+        return
+
     try:
-        # Seed Countries, Cities, Universities, Faculties, Departments, LivingCosts, Dormitories
         for country_data in ARAB_COUNTRIES_DATA:
-            country = Country(name=country_data["name"], code=country_data["code"])
+            # إضافة الدولة مع توليد ID يدوي لضمان الربط
+            country = Country(
+                id=generate_uuid(),
+                name=country_data["name"], 
+                code=country_data["code"]
+            )
             db.add(country)
-            db.flush() # Flush to get the country.id
+            db.flush() 
 
-            for city_data in country_data["cities"]:
-                city = City(name=city_data["name"], country_id=country.id)
+            for city_data in country_data.get("cities", []):
+                city = City(
+                    id=generate_uuid(),
+                    name=city_name := city_data["name"], 
+                    country_id=country.id
+                )
                 db.add(city)
-                db.flush() # Flush to get the city.id
+                db.flush() 
 
-                for university_data in city_data["universities"]:
+                for uni_data in city_data.get("universities", []):
                     university = University(
-                        name=university_data["name"],
-                        description=university_data["description"],
-                        website=university_data["website"],
+                        id=generate_uuid(),
+                        name=uni_data["name"],
+                        description=uni_data.get("description", ""),
+                        website=uni_data.get("website", ""),
                         city_id=city.id
                     )
                     db.add(university)
-                    db.flush() # Flush to get the university.id
+                    db.flush()
 
-                    # Add Faculties
-                    for faculty_name in university_data["faculties"]:
-                        faculty = Faculty(name=faculty_name, university_id=university.id)
+                    # إضافة الكليات
+                    for faculty_name in uni_data.get("faculties", []):
+                        faculty = Faculty(id=generate_uuid(), name=faculty_name, university_id=university.id)
                         db.add(faculty)
-                        db.flush() # Flush to get the faculty.id
+                        db.flush()
 
-                        # Add Departments (simplified for now, can be expanded)
-                        for dept_data in university_data["departments"]:
+                        # إضافة الأقسام
+                        for dept_data in uni_data.get("departments", []):
                             department = Department(
+                                id=generate_uuid(),
                                 name=dept_data["name"],
                                 faculty_id=faculty.id,
-                                duration_years=dept_data.get("duration"),
-                                annual_fees=dept_data.get("fees"),
-                                study_language="العربية/الإنجليزية", # Default language
-                                study_system="فصلي" # Default system
+                                duration_years=dept_data.get("duration", 4),
+                                annual_fees=float(dept_data.get("fees", 0)),
+                                study_language=dept_data.get("language", "العربية/الإنجليزية"),
+                                study_system="فصلي"
                             )
                             db.add(department)
                             db.flush()
 
-                            # Add Admission Requirements (simplified)
-                            admission_req = AdmissionRequirement(
-                                requirement_text="شهادة الثانوية العامة بمعدل جيد جداً",
-                                department_id=department.id
-                            )
-                            db.add(admission_req)
-
-                    # Add Living Costs
-                    if "living_costs" in university_data:
-                        living_cost = LivingCost(
-                            university_id=university.id,
-                            food_cost=university_data["living_costs"].get("food"),
-                            transport_cost=university_data["living_costs"].get("transport"),
-                            total_monthly_avg=university_data["living_costs"].get("total")
-                        )
-                        db.add(living_cost)
-
-                    # Add Dormitory Info
-                    if "dormitory" in university_data:
-                        dormitory = Dormitory(
-                            university_id=university.id,
-                            cost=university_data["dormitory"].get("cost"),
-                            room_type=university_data["dormitory"].get("room_type"),
-                            includes_internet=True, # Default
-                            includes_food=False, # Default
-                            gender="Mixed" # Default
-                        )
-                        db.add(dormitory)
-
         db.commit()
-        print("✅ Database seeded successfully with all 22 Arab countries!")
+        print("✅ تمت تغذية قاعدة البيانات بنجاح!")
     except Exception as e:
         db.rollback()
-        print(f"Error seeding database: {e}")
+        print(f"❌ خطأ أثناء التغذية: {e}")
     finally:
         db.close()
 
