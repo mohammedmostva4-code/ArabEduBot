@@ -1,40 +1,79 @@
 
 # هيكل البيانات لـ 22 دولة عربية
 ARAB_COUNTRIES_DATA = [
-    {
-        "name": "اليمن", "code": "YE",
+{
+        "name": "اليمن",
+        "code": "YE",
         "cities": [
             {
-                "name": "صنعاء",
+                "name": "حجة",
                 "universities": [
                     {
-                        "name": "جامعة صنعاء",
-                        "description": "الجامعة الحكومية الأولى في اليمن.",
-                        "website": "https://su.edu.ye",
-                        "faculties": ["كلية الطب", "كلية الهندسة", "كلية الحاسوب"],
-                        "departments": [
-                            {"name": "الطب البشري", "fees": 500, "duration": 7},
-                            {"name": "هندسة الحاسوب", "fees": 400, "duration": 5}
+                        "name": "جامعة حجة",
+                        "description": "جامعة حكومية تخدم إقليم حجة، تعتبر رائدة في إعداد الكوادر المؤهلة في العلوم التطبيقية والإنسانية.",
+                        "website": "https://hujja-univ.edu.ye",
+                        "faculties": [
+                            "كلية الطب والعلوم الصحية", 
+                            "كلية علوم الحاسوب وتقنية المعلومات",
+                            "كلية العلوم التطبيقية", 
+                            "كلية العلوم المالية والمصرفية", 
+                            "كلية التربية والعلوم الإنسانية",
+                            "كلية الزراعة والطب البيطري",
+                            "كلية التربية - عبس"
                         ],
-                        "living_costs": {"food": 150, "transport": 50, "total": 300},
-                        "dormitory": {"cost": 50, "room_type": "Shared"}
-                    },
+                        "departments": [
+                            {"name": "الطب البشري", "duration": 7, "fees": 1500, "language": "الإنجليزية"},
+                            {"name": "الأمن السيبراني", "duration": 4, "fees": 450, "language": "الإنجليزية"},
+                            {"name": "تقنية المعلومات (IT)", "duration": 4, "fees": 400, "language": "الإنجليزية/العربية"},
+                            {"name": "علوم الحاسوب", "duration": 4, "fees": 400, "language": "الإنجليزية"},
+                            {"name": "المختبرات الطبية", "duration": 4, "fees": 600, "language": "الإنجليزية"},
+                            {"name": "المحاسبة", "duration": 4, "fees": 300, "language": "العربية"},
+                            {"name": "العلوم المالية والمصرفية", "duration": 4, "fees": 300, "language": "العربية"},
+                            {"name": "الطب البيطري", "duration": 5, "fees": 400, "language": "العربية/الإنجليزية"}
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "عمران",
+                "universities": [
                     {
-                        "name": "جامعة العلوم والتكنولوجيا",
-                        "description": "أكبر جامعة خاصة في اليمن.",
-                        "website": "https://ust.edu",
-                        "faculties": ["كلية الطب", "كلية الهندسة"],
-                        "departments": [
-                            {"name": "طب الأسنان", "fees": 2500, "duration": 5},
-                            {"name": "الهندسة المعمارية", "fees": 1500, "duration": 5}
+                        "name": "جامعة عمران",
+                        "description": "جامعة حكومية متميزة، تشهد نهضة تعليمية كبيرة في مجالات الطب والأعمال الدولية.",
+                        "website": "https://amu.edu.ye",
+                        "faculties": [
+                            "كلية الطب والعلوم الصحية", 
+                            "كلية الهندسة وتقنية المعلومات", 
+                            "كلية الأعمال - خمر",
+                            "كلية الشريعة والقانون"
                         ],
-                        "living_costs": {"food": 200, "transport": 60, "total": 400},
-                        "dormitory": {"cost": 150, "room_type": "Single/Shared"}
+                        "departments": [
+                            {"name": "الطب البشري", "duration": 7, "fees": 1500, "language": "الإنجليزية"},
+                            {"name": "الهندسة المدنية", "duration": 5, "fees": 600, "language": "الإنجليزية"},
+                            {"name": "المحاسبة الدولية (بالإنجليزي)", "duration": 4, "fees": 500, "language": "الإنجليزية"},
+                            {"name": "إدارة الأعمال الدولية", "duration": 4, "fees": 500, "language": "الإنجليزية"}
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "صعدة",
+                "universities": [
+                    {
+                        "name": "جامعة صعدة",
+                        "description": "صرح أكاديمي حكومي يقدم برامج متميزة في العلوم التطبيقية والإنسانية.",
+                        "website": "https://saada-univ.net",
+                        "faculties": ["كلية الطب", "كلية العلوم التطبيقية", "كلية العلوم الإنسانية والإدارية"],
+                        "departments": [
+                            {"name": "الطب البشري", "duration": 7, "fees": 1500, "language": "الإنجليزية"},
+                            {"name": "نظم المعلومات", "duration": 4, "fees": 400, "language": "الإنجليزية/العربية"},
+                            {"name": "المحاسبة", "duration": 4, "fees": 300, "language": "العربية"}
+                        ]
                     }
                 ]
             }
         ]
-    },
+    }
     {
         "name": "مصر", "code": "EG",
         "cities": [
